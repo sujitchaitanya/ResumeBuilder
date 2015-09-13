@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+		<style type="text/css">
+			body {
+				margin: 50px 0;
+			}
+			div.panel-body {
+				border-bottom: 1px solid #ccc;
+			}
+			h2 {
+				margin-top: 0;
+			}
+			div.actions form {
+				display: inline-block;
+			}
+		</style>
+		
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">Please Contact Admin with below screenshot</div>
+							Failed URL <p th:text="${url}" /><br />
+    						Exception:  <p th:text="${exception.message}" />
+        					<div th:each="st : ${exception.stackTrace}">
+        						<p th:text="${st}" /><br />
+        					</div>
+					</div>
+				
+				</div>
+			</div>
+			
+		</div>
+		
+	</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+		<style type="text/css">
+			body {
+				margin: 50px 0;
+			}
+			div.panel-body {
+				border-bottom: 1px solid #ccc;
+			}
+			h2 {
+				margin-top: 0;
+			}
+			div.actions form {
+				display: inline-block;
+			}
+			
+			.panel-container {
+				display: flex;
+			}
+			.vcenter{
+				align-self: center;
+			}
+			.right{
+				margin-left: auto;
+			}
+			.row {
+			    border-bottom: 1px solid #ccc;
+			    margin-bottom: 2em;
+			    padding-bottom: 2em;
+			}
+		</style>
+		
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		
+		<script th:inline="javascript">
+		function retrieveReposForLang(lang) {
+			/*<![CDATA[*/
+			    var userName = /*[[${userInfo.gitUser.login}]]*/ null;
+				var url = '/' + userName + '/selLanguage/' + lang;
+				console.log(url);
+				$("#selLanguage").load(url);
+			/*]]>*/
+		}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row" th:if="${message}">
+				<div class="col-lg-12">
+					<div class="alert alert-info" th:text="${message}">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading panel-container">
+							<img alt="" src="${userInfo.gitUser.avatar_url}" th:if="${userInfo.gitUser.avatar_url}"></img>
+							<h3 th:text="${userInfo.gitUser.name}" ></h3>
+							<a class="vcenter right" th:if="${userInfo.gitUser.email}" th:text="${userInfo.gitUser.email}" href="${userInfo.gitUser.email}"></a>
+						</div>
+						<div class="panel-body panel-container" th:if="${!#strings.isEmpty(userInfo.gitUser.company) and !#strings.isEmpty(userInfo.gitUser.blog) and !#strings.isEmpty(userInfo.gitUser.location)}">
+							<p th:if="${userInfo.gitUser.company}">Company</p>
+							<p th:text="${userInfo.gitUser.company}" th:if="${userInfo.gitUser.company}"></p>
+							<p th:if="${userInfo.gitUser.blog}">WebSite</p>
+							<p th:text="${userInfo.gitUser.blog}" th:if="${userInfo.gitUser.blog}"></p>
+							<p th:if="${userInfo.gitUser.location}">Location</p>
+							<p th:text="${userInfo.gitUser.location}" th:if="${userInfo.gitUser.location}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<p>Languages</p>
+						</div>
+						<div class="panel-body panel-container" style="flex-wrap: wrap;">
+							<p class="col-lg-3" th:each="language: ${userInfo.languages}">
+								<span class="btn btn-default btn-sm active" th:onclick="'javascript:retrieveReposForLang(\'' + ${language.key} + '\');'" th:text="${language.key}"></span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="selLanguage">
+			<div class="row" th:fragment="selLanguage"  th:if="${selLanguage}">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<p th:text="${selLanguage} + ' used in repositries'"></p>
+						</div>
+						<div class="panel-body" style="flex-wrap: wrap;">
+							<p class="col-lg-12" th:each="repositry: ${repositries}">
+								<div class="panel-heading">
+									<a th:href="${repositry.html_url}" th:text="${repositry.id}"></a>
+								</div>
+								<div class="panel-body">
+									<span th:text="${repositry.description}"></span>
+								</div>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</body>
+</html>
